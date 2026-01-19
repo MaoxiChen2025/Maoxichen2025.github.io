@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置</title>
+</head>
+<body>
+    <font size="7"><center><a style="color:#000fff;">欢迎来到设置页面</a></center></font>
+    <p>
+    <font size="6"><a href="index.html">回到首页</a></font>
+    <font size="5">
+    <p>网站信息：</p>
+    <a href="https://github.com/MaoxiChen2025/01" target="_blank" >
+    >>>访问本网站的Github仓库<p></a>
+    （最后更新时间：<span id="lastUpdateTime" style="color:#0078E7;font-weight:bold;"></span>）
+      <p>
+      <a href="https://github.com/MaoxiChen2025/01/releases">管理<img src="img/jump.webp"></a>
+      <p>
+      <a href="toastify-test.html">测试Toastify<img src="img/jump.webp"></a>
+</font>
+ <script>
+const githubUser = "MaoxiChen2025"; // 你的GitHub用户名，不要改
+const githubRepo = "01"; // 你的仓库名，不要改
+// 调用GitHub官方API，获取最新Release的发布时间
+fetch(`https://api.github.com/repos/${githubUser}/${githubRepo}/releases/latest`)
+  .then(res => res.json())
+  .then(data => {
+    // 获取原始发布时间
+    const updateTime = new Date(data.published_at);
+    // 格式化时间：转成【2026-01-10 20:20:00】这种好看的格式（可自定义）
+    const fmtTime = `${updateTime.getFullYear()}-${(updateTime.getMonth()+1).toString().padStart(2,0)}-${updateTime.getDate().toString().padStart(2,0)} ${updateTime.getHours().toString().padStart(2,0)}:${updateTime.getMinutes().toString().padStart(2,0)}`;
+    // 把时间显示到网页上
+    document.getElementById("lastUpdateTime").innerText = fmtTime;
+  })
+  .catch(err => {
+    document.getElementById("lastUpdateTime").innerText = "获取时间失败";
+  });
+ </script>
+</body>
+</html>
