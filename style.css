@@ -162,7 +162,6 @@ a:hover {
 /* 设置全局字体 */
 body {
     font-family: 'MyCustomFont', sans-serif;
-    background-color: #D4F2F8;
     margin: 0;
     padding: 0;
 }
