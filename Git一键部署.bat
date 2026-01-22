@@ -1,12 +1,12 @@
 @echo off
 setlocal enabledelayedexpansion
 chcp 65001 > nul 2>&1
-title 一键部署（含网络检测）- 出错会暂停
+title 一键部署（保留本地文件版）- 出错会暂停
 
 :: ====================== 核心配置 =======================
 set "deploy_path=D:\其他\桌面文件\毛毛\Trae Projects\01\02\CN"
 set "github_repo=https://github.com/MaoxiChen2025/Maoxichen2025.github.io.git"
-set "github_branch=master"
+set "github_branch=master"  :: 改为和本地一致的master分支
 set "git_user_name=MaoxiChen2025"
 set "git_user_email=2662772508@qq.com"
 :: =======================================================
@@ -26,10 +26,9 @@ if errorlevel 1 (
 )
 echo Git安装正常！
 
-:: --------------- 新增：检测是否能访问GitHub（仓库所在平台）---------------
+:: 检测网络是否能访问GitHub
 echo ==============================================
-echo 正在检测网络是否能访问GitHub（仓库依赖此网络）...
-:: 尝试ping GitHub 2次，超时1秒
+echo 正在检测网络是否能访问GitHub...
 ping github.com -n 2 -w 1000 > nul 2>&1
 if errorlevel 1 (
     echo 【错误】网络无法访问GitHub！请检查网络连接后重试。
@@ -110,7 +109,7 @@ if "%check_email%"=="" (
 )
 echo Git身份配置成功：用户名=%check_name%，邮箱=%check_email%
 
-:: 本地文件列表
+:: 本地文件列表（仅CN/相对路径+无序列表）
 echo ==============================================
 echo 【本地待部署文件列表（含所有子文件夹）】：
 echo ----------------------------------------------
@@ -126,7 +125,7 @@ for /f "tokens=* delims=" %%i in ('dir /a /b /o:d /s "%deploy_path%"') do (
 echo ----------------------------------------------
 pause > nul
 
-:: 远程文件列表
+:: 远程文件列表（仅CN/相对路径+无序列表）
 echo ==============================================
 echo 【GitHub远程仓库文件列表（含所有子文件夹）】：
 echo ----------------------------------------------
@@ -142,7 +141,7 @@ if "%remote_empty%"=="1" (
 echo ----------------------------------------------
 pause > nul
 
-:: 用户确认
+:: 用户确认部署
 set "confirm="
 set /p "confirm=是否确认部署？(Y继续，其他键退出)："
 if /i not "%confirm%"=="Y" (
@@ -153,13 +152,16 @@ if /i not "%confirm%"=="Y" (
     exit /b 0
 )
 
-:: 部署流程
+:: 部署流程（修改后）
 echo ==============================================
-echo 正在拉取远程仓库最新内容...
-git fetch --all
-git reset --hard origin/%github_branch% 2> nul
+echo 正在同步远程更新（保留本地修改）...
+git pull origin %github_branch%
 if errorlevel 1 (
-    echo 提示：远程仓库为空，无需拉取/重置，继续部署...
+    echo 提示：存在冲突，请手动解决冲突后重试！
+    pause
+    popd
+    endlocal
+    exit /b 1
 )
 
 echo 正在添加所有文件到Git暂存区...
@@ -175,21 +177,5 @@ if errorlevel 1 (
 )
 
 echo 正在推送到GitHub仓库...
-git push -u origin %github_branch% -f
-if errorlevel 1 (
-    echo 【错误】推送失败！请检查：
-    echo 1. 是否有权限访问该仓库（推荐配置SSH密钥）
-    echo 2. 网络是否临时波动（可重试）
-    pause
-    popd
-    endlocal
-    exit /b 1
-)
-
-echo ==============================================
-echo 部署成功！
-echo ==============================================
-popd
-endlocal
-pause
-exit /b 0
+:: 仅首次推送用 -u，后续无需；移除 -f 避免强制覆盖远程
+git push origin %github_branch%
