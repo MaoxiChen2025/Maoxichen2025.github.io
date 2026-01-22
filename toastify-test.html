@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toastify测试</title>
+    <!-- 引入最新版Toastify样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@2.1.0/dist/Toastify.min.css">
+    <!-- 引入最新版Toastify脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@2.1.0/dist/Toastify.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #D4F2F8;
+        }
+        .test-container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+        .success-btn {
+            background-color: #00b09b;
+        }
+        .error-btn {
+            background-color: #ff5f6d;
+        }
+    </style>
+</head>
+<body>
+    <p><a href="index.html"> 返回首页<img src="img/jump.webp"></a></p><p>
+    <p><a href="login.html"> 返回设置页面<img src="img/jump.webp"></a></p>
+    
+    
+    <div class="test-container">
+        <h1>Toastify通知测试</h1>
+        <p>点击下方按钮测试Toastify通知功能：</p>
+        <button class="success-btn" onclick="showSuccessToast()">显示成功通知</button>
+        <button class="error-btn" onclick="showErrorToast()">显示错误通知</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        // 验证Toastify是否正确加载
+        document.getElementById('status').textContent = 'Toastify加载状态: ' + (typeof Toastify === 'function' ? '已加载' : '未加载');
+        console.log('Toastify加载状态:', typeof Toastify);
+        
+        function showSuccessToast() {
+            try {
+                Toastify({
+                    text: "登录成功！欢迎访问设置页面。",
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    style: {
+                        background: "#00b09b",
+                        color: "white",
+                        borderRadius: "5px"
+                    }
+                }).showToast();
+                console.log('成功通知已显示');
+            } catch (error) {
+                console.error('显示成功通知时出错:', error);
+                alert('Toastify错误：' + error.message);
+            }
+        }
+        
+        function showErrorToast() {
+            try {
+                Toastify({
+                    text: "密码错误，请重试！",
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    style: {
+                        background: "#ff5f6d",
+                        color: "white",
+                        borderRadius: "5px"
+                    }
+                }).showToast();
+                console.log('错误通知已显示');
+            } catch (error) {
+                console.error('显示错误通知时出错:', error);
+                alert('Toastify错误：' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
