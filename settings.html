@@ -17,8 +17,35 @@
       <p>
       <a href="https://github.com/MaoxiChen2025/MaoxiChen2025.github.io/releases">管理<img src="img/jump.webp"></a>
       <p>
+    <h1>仓库文件列表</h1>
+    <ul id="fileList"></ul>
+    <script>
+        // GitHub API地址（替换为你的仓库信息）
+        const repoApiUrl = "https://api.github.com/repos/MaoxiChen2025/Maoxichen2025.github.io/contents/";
+        
+        // 调用API获取文件列表并渲染
+        fetch(repoApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const fileList = document.getElementById("fileList");
+                data.forEach(item => {
+                    const li = document.createElement("li");
+                    // 区分文件/文件夹，添加对应的链接
+                    if (item.type === "dir") {
+                        li.innerHTML = `📂 <a href="${item.html_url}" target="_blank">${item.name}</a>`;
+                    } else {
+                        li.innerHTML = `📄 <a href="${item.html_url}" target="_blank">${item.name}</a>（大小：${(item.size/1024).toFixed(2)}KB）`;
+                    }
+                    fileList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                document.getElementById("fileList").innerHTML = "获取文件列表失败";
+            });
+    </script>
       <a href="toastify-test.html">测试Toastify<img src="img/jump.webp"></a>
 </font>
+ 
  <script>
 const githubUser = "MaoxiChen2025"; // 你的GitHub用户名，不要改
 const githubRepo = "MaoxiChen2025.github.io"; // 你的仓库名，不要改
