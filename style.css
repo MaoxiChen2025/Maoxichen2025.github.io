@@ -14,7 +14,7 @@
 }
 
 body {
-    background-image: url('img/backgroud.webp');
+    background-image: url("https://s41.ax1x.com/2026/01/24/pZgbCdI.png");
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -92,6 +92,7 @@ nav {
 }
 .message {
   text-align: center;
+  font-size: 25px; /* 对应font size="6" */
 }
 
 .left-title {
