@@ -14,8 +14,8 @@
 }
 
 body {
-    background-image: url('img/backgroud.webp');
-    background-size: cover;
+    background-image: url("https://s41.ax1x.com/2026/01/24/pZgqk7R.png");
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -92,6 +92,7 @@ nav {
 }
 .message {
   text-align: center;
+  font-size: 30px; /* 对应font size="6" */
 }
 
 .left-title {
@@ -162,7 +163,6 @@ a:hover {
 /* 设置全局字体 */
 body {
     font-family: 'MyCustomFont', sans-serif;
-    background-color: #D4F2F8;
     margin: 0;
     padding: 0;
 }
@@ -174,4 +174,3 @@ body {
     font-family: 'CustomTitleFont', sans-serif;
     line-height: 15px;
 }
-
