@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <!-- 引入最新版Toastify样式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@2.1.0/dist/Toastify.min.css">
-    <!-- 引入最新版Toastify脚本 -->
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js@2.1.0/dist/Toastify.min.js"></script>
     <style>
         /* 登录表单样式 */
         .login-form {
@@ -79,8 +77,12 @@
     <div class="login-form">
         <form id="loginForm">
             <div class="form-group">
+                <center><img src="img/login.gif" height="250px"></center>
                 <label for="password">密码：</label>
                 <input type="password" id="password" name="password" placeholder="请输入管理员密码" required>
+            </div>
+            <div class="form-group">
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAACYQJ4OK7n7tG2ry" data-theme="light"></div>
             </div>
             <div class="form-group">
                 <button type="submit">验证</button>
@@ -96,11 +98,31 @@
     </div>
 
     <script>
-        // 验证Toastify是否正确加载
-        console.log('Toastify加载状态:', typeof Toastify);
+        // 延迟加载脚本 - 确保页面完全显示后再加载
+        let scriptsLoaded = false;
         
-        // 确保DOM加载完成后执行
-        document.addEventListener('DOMContentLoaded', function() {
+        function loadScripts() {
+            if (scriptsLoaded) return;
+            scriptsLoaded = true;
+            
+            // 动态加载Toastify脚本
+            const toastifyScript = document.createElement('script');
+            toastifyScript.src = 'https://cdn.jsdelivr.net/npm/toastify-js@2.1.0/dist/Toastify.min.js';
+            document.head.appendChild(toastifyScript);
+            
+            // 动态加载Cloudflare Turnstile脚本
+            const turnstileScript = document.createElement('script');
+            turnstileScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            turnstileScript.async = true;
+            turnstileScript.defer = true;
+            document.head.appendChild(turnstileScript);
+        }
+        
+        // 确保页面完全加载后再执行
+        window.addEventListener('load', function() {
+            // 延迟500ms后加载脚本，确保页面内容完全显示
+            setTimeout(loadScripts, 500);
+            
             // 登录验证功能
             document.getElementById('loginForm').addEventListener('submit', function(e) {
                 e.preventDefault(); // 阻止表单默认提交
