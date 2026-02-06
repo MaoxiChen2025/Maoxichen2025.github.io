@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="index.html">支持</a></li>
+                <li><a href="download.html">下载</a></li>
+                <li><font color="#000fff"><a href="about.html">关于</a></font></li>
+            </ul>
+            <div class="nav-logo">
+                <a href="index.html"><img src="img/Logo.webp" alt="Logo"></a>
+            </div>
+        </div>
+    </nav>
+    <div class="title">
+        <p><center>一起开发</center></p>
+    </div>
+    <div class="left-title">
+         <h4>点击下面你感兴趣的项目，一起开发吧！</h4>
+         <h5>文件列表</h5>
+    </div>
+    <div class="download-message">
+    <ul id="fileList"></ul>
+    <script>
+        // GitHub API地址
+        const repoApiUrl = "https://api.github.com/repos/MaoxiChen2025/Maoxichen2025.github.io/contents/";
+        // 调用API获取文件列表并渲染
+        fetch(repoApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const fileList = document.getElementById("fileList");
+                data.forEach(item => {
+                    const li = document.createElement("li");
+                    // 区分文件/文件夹，添加对应的链接
+                    if (item.type === "dir") {
+                        li.innerHTML = `📂 <a href="${item.html_url}" target="_blank">${item.name}</a>`;
+                    } else {
+                        li.innerHTML = `📄 <a href="${item.html_url}" target="_blank">${item.name}</a>（大小：${item.size}字节）`;
+                    }
+                    fileList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                document.getElementById("fileList").innerHTML = "获取文件列表失败";
+            });
+    </script>
+
+</font>
+
+    </div>
+    <div class="settings-btn">
+        <a href="login.html">
+        <img src="img/settings.webp" alt="Settings">
+        </a>
+    </div>
+</body>
+</html>
