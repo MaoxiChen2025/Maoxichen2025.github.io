@@ -153,7 +153,7 @@
                         alert('验证成功！欢迎访问设置页面。');
                         window.location.href = 'settings.html';
                     } catch (error) {
-                        console.error('Toastify成功提示错误:', error);
+                        console.error('Toastify错误:', error);
                         // 降级方案：直接使用alert
                         alert('登录成功！欢迎访问设置页面。');
                         window.location.href = 'settings.html';
@@ -173,7 +173,7 @@
                             }
                         }).showToast();
                     } catch (error) {
-                        console.error('Toastify错误提示错误:', error);
+                        console.error('Toastify错误:', error);
                         // 降级方案：使用alert
                         alert('密码错误，请重试！');
                     }

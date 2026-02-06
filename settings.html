@@ -20,9 +20,8 @@
     <h1>仓库文件列表</h1>
     <ul id="fileList"></ul>
     <script>
-        // GitHub API地址（替换为你的仓库信息）
+        // GitHub API地址
         const repoApiUrl = "https://api.github.com/repos/MaoxiChen2025/Maoxichen2025.github.io/contents/";
-        
         // 调用API获取文件列表并渲染
         fetch(repoApiUrl)
             .then(response => response.json())
@@ -34,7 +33,7 @@
                     if (item.type === "dir") {
                         li.innerHTML = `📂 <a href="${item.html_url}" target="_blank">${item.name}</a>`;
                     } else {
-                        li.innerHTML = `📄 <a href="${item.html_url}" target="_blank">${item.name}</a>（大小：${(item.size/1024).toFixed(2)}KB）`;
+                        li.innerHTML = `📄 <a href="${item.html_url}" target="_blank">${item.name}</a>（大小：${item.size}字节）`;
                     }
                     fileList.appendChild(li);
                 });
